@@ -31,7 +31,7 @@ export async function login(page, email, password = PW) {
 export async function logout(page) {
   if (!(await page.getByTestId("logout").isVisible())) await page.getByTestId("user-menu").click();
   await page.getByTestId("logout").click();
-  await page.waitForSelector('[data-testid="nav-login"], [data-testid="nav-register"]', { timeout: 8000 });
+  await page.waitForFunction(() => !document.querySelector('[data-testid="user-menu"]'), null, { timeout: 8000 });
 }
 export async function makePng(page) {
   const b64 = await page.evaluate(() => {

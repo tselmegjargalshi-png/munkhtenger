@@ -47,10 +47,32 @@ export function DemoMap({
   const [drawMode, setDrawMode] = useState(false);
   const [drag, setDrag] = useState<{ x0: number; y0: number; x1: number; y1: number } | null>(null);
 
-  const pts = useMemo(
-    () => properties.map((p) => ({ p, ...proj(p.lat, p.lng) })).filter((m) => m.x > -20 && m.x < W + 20 && m.y > -20 && m.y < H + 20),
-    [properties],
-  );
+  const pts = useMemo(() => {
+    const list = properties.map((p) => ({ p, ...proj(p.lat, p.lng) })).filter((m) => m.x > -20 && m.x < W + 20 && m.y > -20 && m.y < H + 20);
+    // Nudge overlapping price pills apart (display only, the real coordinates are unchanged).
+    for (let it = 0; it < 40; it++) {
+      let moved = false;
+      for (let i = 0; i < list.length; i++)
+        for (let j = i + 1; j < list.length; j++) {
+          const dx = list[j].x - list[i].x;
+          const dy = list[j].y - list[i].y;
+          const ox = 96 - Math.abs(dx);
+          const oy = 34 - Math.abs(dy);
+          if (ox > 0 && oy > 0) {
+            moved = true;
+            if (oy < ox) {
+              const s = (dy >= 0 ? 1 : -1) * (oy / 2 + 0.5);
+              list[i].y -= s; list[j].y += s;
+            } else {
+              const s = (dx >= 0 ? 1 : -1) * (ox / 2 + 0.5);
+              list[i].x -= s; list[j].x += s;
+            }
+          }
+        }
+      if (!moved) break;
+    }
+    return list;
+  }, [properties]);
 
   const toLocal = (e: React.PointerEvent) => {
     const r = svgRef.current!.getBoundingClientRect();

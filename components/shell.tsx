@@ -25,9 +25,15 @@ export function Avatar({ name, color, src, size = 32 }: { name: string; color: s
 }
 
 export function DemoBanner() {
-  const { db } = useApp();
+  const { db, saveError } = useApp();
   const { tr, l } = useLang();
   const [hidden, setHidden] = useState(false);
+  if (db && saveError)
+    return (
+      <div className="bg-rust px-4 py-2 text-center text-[12px] font-semibold text-white" role="alert" data-testid="storage-full">
+        {tr("Хөтчийн санах ой дүүрсэн тул сүүлийн өөрчлөлт хадгалагдсангүй. Том зургуудыг устгах эсвэл демо мэдээллийг шинэчилнэ үү.", "Browser storage is full, so the latest change was not saved. Remove large photos or reset the demo data.")}
+      </div>
+    );
   if (!db || hidden || !db.content.announcementOn) return null;
   return (
     <div className="bg-ink text-[12px] text-white/90" data-testid="demo-banner">
@@ -105,8 +111,8 @@ function UserMenu() {
   }, []);
   if (!user)
     return (
-      <div className="flex items-center gap-2">
-        <Link href="/login" className="btn-ghost btn-sm hidden sm:inline-flex" data-testid="nav-login">{tr("Нэвтрэх", "Sign in")}</Link>
+      <div className="hidden items-center gap-2 sm:flex">
+        <Link href="/login" className="btn-ghost btn-sm" data-testid="nav-login">{tr("Нэвтрэх", "Sign in")}</Link>
         <Link href="/register" className="btn-primary btn-sm" data-testid="nav-register">{tr("Бүртгүүлэх", "Join")}</Link>
       </div>
     );
@@ -189,7 +195,8 @@ export function Header() {
               <Link key={n.href} href={n.href} className="rounded-xl px-3 py-3 text-base font-medium hover:bg-paper-2">{n.label}</Link>
             ))}
             <Link href="/compare" className="rounded-xl px-3 py-3 text-base font-medium hover:bg-paper-2">{tr("Харьцуулах", "Compare")}</Link>
-            {!user && <Link href="/login" className="rounded-xl px-3 py-3 text-base font-medium hover:bg-paper-2">{tr("Нэвтрэх", "Sign in")}</Link>}
+            {!user && <Link href="/login" className="rounded-xl px-3 py-3 text-base font-medium hover:bg-paper-2" data-testid="mobile-login">{tr("Нэвтрэх", "Sign in")}</Link>}
+            {!user && <Link href="/register" className="rounded-xl px-3 py-3 text-base font-semibold text-sky hover:bg-paper-2" data-testid="mobile-register">{tr("Бүртгүүлэх", "Create account")}</Link>}
           </div>
         </nav>
       )}

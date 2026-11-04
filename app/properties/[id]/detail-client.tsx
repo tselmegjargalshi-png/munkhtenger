@@ -112,7 +112,7 @@ export function DetailClient({ id }: { id: string }) {
           </div>
 
           <div className="mt-6 flex flex-wrap items-end gap-x-6 gap-y-1">
-            <div className="font-display text-5xl font-semibold" data-testid="detail-price">{formatMNT(p.price)}<span className="font-sans text-sm font-medium text-ink-3">{priceSuffix(p.listingType, lang)}</span></div>
+            <div className="font-display text-4xl font-semibold sm:text-5xl" data-testid="detail-price">{formatMNT(p.price)}<span className="font-sans text-sm font-medium text-ink-3">{priceSuffix(p.listingType, lang)}</span></div>
             {ppm > 0 && p.listingType === "sale" && <div className="pb-1.5 text-sm text-ink-3">{formatMNT(ppm)} / {m2(lang)}</div>}
           </div>
 

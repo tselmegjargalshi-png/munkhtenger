@@ -38,7 +38,7 @@ export function LineChart({ series, labels, height = 160 }: { series: { name: st
       <svg viewBox={`0 0 ${W} ${height + 26}`} className="w-full" role="img">
         {[0.25, 0.5, 0.75, 1].map((t) => <line key={t} x1={pad} x2={W - pad} y1={height - height * t + 4} y2={height - height * t + 4} stroke="#E8E3D8" />)}
         {series.map((s) => <polyline key={s.name} fill="none" stroke={s.color} strokeWidth="2.4" strokeLinejoin="round" strokeLinecap="round" points={s.values.map((v, i) => `${x(i)},${y(v)}`).join(" ")} />)}
-        {labels.map((l, i) => (i % Math.ceil(labels.length / 6) === 0 ? <text key={i} x={x(i)} y={height + 20} textAnchor="middle" fontSize="11" fill="#8C93A0">{l.slice(5)}</text> : null))}
+        {labels.map((l, i) => (i % Math.ceil(labels.length / 6) === 0 ? <text key={i} x={x(i)} y={height + 20} textAnchor="middle" fontSize="11" fill="#8C93A0">{l.slice(5).replace("-", ".")}</text> : null))}
       </svg>
       <div className="mt-1 flex gap-4 text-xs text-ink-3">{series.map((s) => <span key={s.name} className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full" style={{ background: s.color }} />{s.name}</span>)}</div>
     </div>

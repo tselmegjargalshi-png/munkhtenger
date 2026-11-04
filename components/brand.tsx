@@ -17,7 +17,7 @@ export function Logo({ lang, light, className }: { lang: "mn" | "en"; light?: bo
     <span className={cx("inline-flex items-center gap-2.5", className)}>
       <LogoMark />
       <span className="leading-none">
-        <span className={cx("block font-display text-[22px] font-bold tracking-tight", light ? "text-white" : "text-ink")}>{lang === "mn" ? "Мөнхтэнгэр" : "Munkhtenger"}</span>
+        <span className={cx("block font-display text-[21px] font-bold tracking-tight", light ? "text-white" : "text-ink")}>{lang === "mn" ? "Мөнхтэнгэр" : "Munkhtenger"}</span>
         <span className={cx("mt-0.5 block text-[9px] font-semibold uppercase tracking-[0.22em]", light ? "text-white/60" : "text-brass")}>{lang === "mn" ? "Үл хөдлөх хөрөнгө" : "Real Estate"}</span>
       </span>
     </span>

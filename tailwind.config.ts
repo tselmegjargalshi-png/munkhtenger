@@ -14,7 +14,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ['"Manrope"', "system-ui", "sans-serif"],
-        display: ['"Cormorant Garamond"', "Georgia", "serif"],
+        display: ['"Lora"', "Georgia", "serif"],
       },
       boxShadow: {
         card: "0 1px 2px rgba(21,24,30,.04), 0 8px 24px rgba(21,24,30,.06)",
