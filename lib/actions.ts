@@ -1084,3 +1084,27 @@ export function runMaintenance() {
     }
   });
 }
+
+export function adminUpdatePlan(id: string, patch: { price?: number; listingLimit?: number; periodDays?: number }) {
+  const me = requireAdmin();
+  mutate((db) => {
+    const p = db.plans.find((x) => x.id === id);
+    if (!p) return;
+    if ((patch.price !== undefined && patch.price < 0) || (patch.listingLimit !== undefined && patch.listingLimit < 1)) throw new AppError("Утга буруу байна", "Invalid value");
+    Object.assign(p, patch);
+    audit(db, me.id, "plan.update", "plan", id, JSON.stringify(patch));
+  });
+}
+
+export function adminDeleteUser(userId: string) {
+  const me = requireAdmin();
+  mutate((db) => {
+    const u = db.users.find((x) => x.id === userId);
+    if (!u) return;
+    if (u.id === me.id) throw new AppError("Өөрийгөө устгах боломжгүй", "You cannot delete yourself");
+    if (u.role === "super_admin" || (u.role === "platform_admin" && me.role !== "super_admin")) forbidden();
+    if (db.properties.some((p) => p.agentId === u.id)) throw new AppError("Зартай хэрэглэгчийг устгах боломжгүй. Түр хаана уу.", "This user has listings. Suspend instead of deleting.");
+    db.users = db.users.filter((x) => x.id !== userId);
+    audit(db, me.id, "user.delete", "user", userId, u.name);
+  });
+}
