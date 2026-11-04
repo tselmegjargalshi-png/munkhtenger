@@ -151,3 +151,5 @@ Because the demo keeps data in the browser, a Vercel deployment is a fully inter
 5. Replace the demo checkout with real QPay and SocialPay integrations. Never mark a payment paid without the gateway callback.
 6. Replace the demo map with Mapbox, Google Maps or Leaflet and real coordinates.
 7. Add scheduled jobs for listing and subscription expiry and for email or SMS notifications.
+
+Live demo: deployed on Vercel from main.
